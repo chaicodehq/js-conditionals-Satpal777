@@ -26,5 +26,25 @@
  * @returns {number} Total tax amount owed
  */
 export function calculateTax(income) {
-  // Your code here
+  if (income <= 0) return 0;
+
+  let tax = 0;
+
+  let slabs = [
+    [0, 10000, 0],
+    [10000, 30000, 0.1],
+    [30000, 70000, 0.2],
+    [70000, Number.POSITIVE_INFINITY, 0.3]
+  ];
+
+  for (let [start, end, perc] of slabs) {
+    if (income > start) {
+      let diff = Math.min(income, end) - start;
+      tax += diff * perc;
+    } else {
+      break;
+    }
+  }
+
+  return tax;
 }
