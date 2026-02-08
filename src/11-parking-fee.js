@@ -33,5 +33,21 @@
  * @returns {number} Parking fee or -1 for invalid input
  */
 export function calculateParkingFee(hours, vehicleType) {
-  // Your code here
+  if (hours <= 0 || !["car", "motorcycle", "bus"].includes(vehicleType)) return -1
+
+  const pricing = {
+    car: { base: 5, perHour: 3, cap: 30 },
+    motorcycle: { base: 3, perHour: 2, cap: 18 },
+    bus: { base: 10, perHour: 7, cap: 60 }
+  }
+
+  const roundedHours = Math.ceil(hours);
+  const extraHours = Math.max(roundedHours - 1, 0);
+
+  const { base, perHour, cap } = pricing[vehicleType];
+
+  const charge = Math.min(base + extraHours * perHour, cap);
+
+  return charge;
+
 }
